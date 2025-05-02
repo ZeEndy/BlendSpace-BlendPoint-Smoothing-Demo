@@ -4,9 +4,10 @@ extends AnimationTree
 @export var RootSpeed=0.0
 var SmoothingMode=true
 @onready var BlendSpace : AnimationNodeBlendSpace2D = tree_root.get_node("GroundedMovement")
+@onready var SmoothingText : Label = get_node("Control/Label")
 
-func _ready() -> void:
-	print(get_property_list())
+#func _ready() -> void:
+	#print(get_property_list())
 
 func _process(delta: float) -> void:
 	var XZSpeed=Vector2(Player.velocity.x,-Player.velocity.z).rotated(-Player.Body.global_rotation.y)
@@ -16,12 +17,12 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("SWITCHMODE"):
 		SmoothingMode=!SmoothingMode
+	SmoothingText.text = "BlendPoint Smoothing: "+str(SmoothingMode)
 	if SmoothingMode:
 		BlendSpace.smooth=true
-		self["parameters/GroundedMovement/blend_position"]=XZSpeed/Player.WALK_SPEED
 	else:
 		BlendSpace.smooth=false
-		self["parameters/GroundedMovement/blend_position"]=ExpDecay(self["parameters/GroundedMovement/blend_position"],XZSpeed/Player.WALK_SPEED,5,delta)
+	self["parameters/GroundedMovement/blend_position"]=ExpDecay(self["parameters/GroundedMovement/blend_position"],XZSpeed/Player.WALK_SPEED,15,delta)
 		
 	if RootSpeed>0.0 && self["parameters/SpeedScale/scale"] > 0: # check if really needs to be applied
 		TargetSpeedScale = max(XZSpeed.length(),0.01)/max(RootSpeed,0.01)#get the difference

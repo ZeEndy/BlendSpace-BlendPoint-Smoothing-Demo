@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bjrwuwhj6qyej"]
+[gd_scene load_steps=23 format=3 uid="uid://bjrwuwhj6qyej"]
 
 [ext_resource type="Script" uid="uid://d0m8ebrjeidx" path="res://characterNew.gd" id="1_atbvg"]
 [ext_resource type="PackedScene" uid="uid://cb0k6div6kq0e" path="res://test mixamo anims.glb" id="1_myinc"]
@@ -80,17 +80,20 @@ max_space = Vector2(2, 2)
 snap = Vector2(1, 1)
 sync = true
 smooth = true
-smooth_speed = 3.5
+smooth_speed = 2.5
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ilduj"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_c4vo5"]
-graph_offset = Vector2(-749, 120)
+graph_offset = Vector2(-944, 287)
 nodes/GroundedMovement/node = SubResource("AnimationNodeBlendSpace2D_qs82m")
 nodes/GroundedMovement/position = Vector2(-400, 140)
 nodes/SpeedScale/node = SubResource("AnimationNodeTimeScale_ilduj")
 nodes/SpeedScale/position = Vector2(-160, 180)
 node_connections = [&"output", 0, &"SpeedScale", &"SpeedScale", 0, &"GroundedMovement"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atbvg"]
+bg_color = Color(0, 0.1955, 0.23, 1)
 
 [node name="Node3D" type="CharacterBody3D"]
 script = ExtResource("1_atbvg")
@@ -105,7 +108,7 @@ root_motion_track = NodePath("%GeneralSkeleton:Root")
 root_motion_local = false
 tree_root = SubResource("AnimationNodeBlendTree_c4vo5")
 anim_player = NodePath("../test mixamo anims/AnimationPlayer")
-parameters/GroundedMovement/blend_position = Vector2(1.87571, -0.0708447)
+parameters/GroundedMovement/blend_position = Vector2(1.97062, 0.0243902)
 parameters/SpeedScale/scale = 1.0
 script = ExtResource("2_atbvg")
 RootSpeed = 1.57578
@@ -113,6 +116,25 @@ RootSpeed = 1.57578
 [node name="RootMotionView" type="RootMotionView" parent="AnimationTree"]
 animation_path = NodePath("..")
 radius = 2.35
+
+[node name="Control" type="Control" parent="AnimationTree"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="AnimationTree/Control"]
+layout_mode = 0
+anchor_left = 0.0685764
+anchor_top = 0.179012
+anchor_right = 0.103299
+anchor_bottom = 0.214506
+theme_override_styles/normal = SubResource("StyleBoxFlat_atbvg")
+text = "ON"
+metadata/_edit_use_anchors_ = true
 
 [node name="test mixamo anims" parent="." instance=ExtResource("1_myinc")]
 
@@ -133,7 +155,7 @@ accessibility_controls_nodes = Array[NodePath]([])
 accessibility_described_by_nodes = Array[NodePath]([])
 accessibility_labeled_by_nodes = Array[NodePath]([])
 accessibility_flow_to_nodes = Array[NodePath]([])
-transform = Transform3D(0.999882, 0.00383493, 0.0149112, -0.00410428, 0.999828, 0.0180738, -0.0148393, -0.0181328, 0.999725, 0.0113688, 1.5003, -0.00516871)
+transform = Transform3D(0.999912, 0.0081785, 0.0104885, -0.00834411, 0.99984, 0.0158443, -0.0103572, -0.0159304, 0.99982, -0.00579569, 1.52942, 0.0379982)
 rotation_edit_mode = 0
 rotation_order = 2
 top_level = false
@@ -145,7 +167,7 @@ script = ExtResource("3_lcuhw")
 Head = Vector3(1.571, 0, 0)
 
 [node name="CameraCurrent" type="Camera3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
-transform = Transform3D(0.999881, -0.00410124, -0.0148402, 0.00383495, 0.999832, -0.0179293, 0.0149113, 0.0178702, 0.999729, 0.013, 0.152, -0.119)
+transform = Transform3D(0.999912, -0.008342, -0.010359, 0.0081785, 0.999843, -0.0157268, 0.0104886, 0.0156407, 0.999823, 0.013, 0.152, -0.119)
 current = true
 fov = 90.0
 
@@ -153,6 +175,6 @@ fov = 90.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.96604e-05, 0.128531, -0.129479)
 
 [node name="LookPoint" type="Marker3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
-transform = Transform3D(1.01731, -2.35479e-07, -8.88389e-06, 9.03732e-07, 1.02002, -4.37945e-05, 5.13112e-05, 0.000147641, 1.00242, 0.178083, 0.215151, -11.9967)
+transform = Transform3D(1.01923, -7.71892e-07, -8.21427e-07, 7.79793e-07, 1.02287, -4.61098e-05, 5.96512e-05, 0.000152839, 1.00394, 0.124308, 0.188721, -11.9979)
 
 [editable path="test mixamo anims"]

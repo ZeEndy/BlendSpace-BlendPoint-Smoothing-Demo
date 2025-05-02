@@ -1,28 +1,13 @@
-[gd_scene load_steps=24 format=3 uid="uid://bjrwuwhj6qyej"]
+[gd_scene load_steps=22 format=3 uid="uid://bjrwuwhj6qyej"]
 
+[ext_resource type="Script" uid="uid://d0m8ebrjeidx" path="res://characterNew.gd" id="1_atbvg"]
 [ext_resource type="PackedScene" uid="uid://cb0k6div6kq0e" path="res://test mixamo anims.glb" id="1_myinc"]
+[ext_resource type="Script" uid="uid://b8mxodst2jkbh" path="res://AnimTree.gd" id="2_atbvg"]
+[ext_resource type="Script" uid="uid://di3wo0smpocsw" path="res://HeadRotator.gd" id="3_lcuhw"]
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_njov2"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ilduj"]
-animation = &"Walk Forward"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s2xbw"]
-animation = &"Jog Backward Right"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rdfvj"]
-animation = &"Running Right"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_2au82"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_ilduj")
-blend_point_0/pos = -0.4
-blend_point_1/node = SubResource("AnimationNodeAnimation_s2xbw")
-blend_point_1/pos = 0.0
-blend_point_2/node = SubResource("AnimationNodeAnimation_rdfvj")
-blend_point_2/pos = 0.5
-sync = true
-smooth = true
-smooth_speed = 3.0
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7ig0a"]
+radius = 0.35
+height = 1.75
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8tn2x"]
 animation = &"Jog Strafe Left"
@@ -95,44 +80,79 @@ max_space = Vector2(2, 2)
 snap = Vector2(1, 1)
 sync = true
 smooth = true
-smooth_speed = 1.5
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_njov2"]
+smooth_speed = 3.5
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ilduj"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_c4vo5"]
-graph_offset = Vector2(-881, 176)
-nodes/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_qs82m")
-nodes/BlendSpace2D/position = Vector2(-400, 140)
-nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_ilduj")
-nodes/TimeScale/position = Vector2(-160, 180)
-nodes/Blend2/node = SubResource("AnimationNodeBlend2_njov2")
-nodes/Blend2/position = Vector2(48, 356)
-nodes/BlendSpace1D/node = SubResource("AnimationNodeBlendSpace1D_2au82")
-nodes/BlendSpace1D/position = Vector2(-380, 480)
-"nodes/TimeScale 2/node" = SubResource("AnimationNodeTimeScale_njov2")
-"nodes/TimeScale 2/position" = Vector2(-160, 460)
-node_connections = [&"output", 0, &"Blend2", &"TimeScale", 0, &"BlendSpace2D", &"Blend2", 0, &"TimeScale", &"Blend2", 1, &"TimeScale 2", &"TimeScale 2", 0, &"BlendSpace1D"]
+graph_offset = Vector2(-749, 120)
+nodes/GroundedMovement/node = SubResource("AnimationNodeBlendSpace2D_qs82m")
+nodes/GroundedMovement/position = Vector2(-400, 140)
+nodes/SpeedScale/node = SubResource("AnimationNodeTimeScale_ilduj")
+nodes/SpeedScale/position = Vector2(-160, 180)
+node_connections = [&"output", 0, &"SpeedScale", &"SpeedScale", 0, &"GroundedMovement"]
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D" type="CharacterBody3D"]
+script = ExtResource("1_atbvg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
+shape = SubResource("CapsuleShape3D_7ig0a")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../test mixamo anims")
-root_motion_track = NodePath("Armature/Skeleton3D:mixamorig1_Root")
+root_motion_track = NodePath("%GeneralSkeleton:Root")
 root_motion_local = false
 tree_root = SubResource("AnimationNodeBlendTree_c4vo5")
 anim_player = NodePath("../test mixamo anims/AnimationPlayer")
-parameters/BlendSpace2D/blend_position = Vector2(1.87571, -0.0708447)
-parameters/TimeScale/scale = 1.0
-parameters/Blend2/blend_amount = 0.0
-parameters/BlendSpace1D/blend_position = -0.38184
-"parameters/TimeScale 2/scale" = 1.0
+parameters/GroundedMovement/blend_position = Vector2(1.87571, -0.0708447)
+parameters/SpeedScale/scale = 1.0
+script = ExtResource("2_atbvg")
+RootSpeed = 1.57578
 
-[node name="RootMotionView" type="RootMotionView" parent="."]
-animation_path = NodePath("../AnimationTree")
+[node name="RootMotionView" type="RootMotionView" parent="AnimationTree"]
+animation_path = NodePath("..")
 radius = 2.35
 
 [node name="test mixamo anims" parent="." instance=ExtResource("1_myinc")]
+
+[node name="HeadRotater" type="SkeletonModifier3D" parent="test mixamo anims/Armature/GeneralSkeleton" index="1"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+accessibility_name = ""
+accessibility_description = ""
+accessibility_live = 0
+accessibility_controls_nodes = Array[NodePath]([])
+accessibility_described_by_nodes = Array[NodePath]([])
+accessibility_labeled_by_nodes = Array[NodePath]([])
+accessibility_flow_to_nodes = Array[NodePath]([])
+transform = Transform3D(0.999882, 0.00383493, 0.0149112, -0.00410428, 0.999828, 0.0180738, -0.0148393, -0.0181328, 0.999725, 0.0113688, 1.5003, -0.00516871)
+rotation_edit_mode = 0
+rotation_order = 2
+top_level = false
+visible = true
+visibility_parent = NodePath("")
+active = true
+influence = 1.0
+script = ExtResource("3_lcuhw")
+Head = Vector3(1.571, 0, 0)
+
+[node name="CameraCurrent" type="Camera3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
+transform = Transform3D(0.999881, -0.00410124, -0.0148402, 0.00383495, 0.999832, -0.0179293, 0.0149113, 0.0178702, 0.999729, 0.013, 0.152, -0.119)
+current = true
+fov = 90.0
+
+[node name="CameraDefault" type="Camera3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.96604e-05, 0.128531, -0.129479)
+
+[node name="LookPoint" type="Marker3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
+transform = Transform3D(1.01731, -2.35479e-07, -8.88389e-06, 9.03732e-07, 1.02002, -4.37945e-05, 5.13112e-05, 0.000147641, 1.00242, 0.178083, 0.215151, -11.9967)
 
 [editable path="test mixamo anims"]

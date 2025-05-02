@@ -1,0 +1,156 @@
+[gd_scene load_steps=22 format=3 uid="uid://bjrwuwhj6qyej"]
+
+[ext_resource type="Script" uid="uid://d0m8ebrjeidx" path="res://characterNew.gd" id="1_atbvg"]
+[ext_resource type="PackedScene" uid="uid://cb0k6div6kq0e" path="res://test mixamo anims.glb" id="1_myinc"]
+[ext_resource type="Script" uid="uid://b8mxodst2jkbh" path="res://AnimTree.gd" id="2_atbvg"]
+[ext_resource type="Script" uid="uid://di3wo0smpocsw" path="res://HeadRotator.gd" id="3_lcuhw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7ig0a"]
+radius = 0.35
+height = 1.75
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8tn2x"]
+animation = &"Jog Strafe Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aq4fw"]
+animation = &"Jog Strafe Right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ivycn"]
+animation = &"Jog Forward Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qs82m"]
+animation = &"Jog Backward Right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c4vo5"]
+animation = &"Jog Backward Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q1uvj"]
+animation = &"Jog Forward"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_njov2"]
+animation = &"Stand Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2au82"]
+animation = &"Jog Backward"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vwb7u"]
+animation = &"Walk Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cqdos"]
+animation = &"Walk Right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_r6p7k"]
+animation = &"Walk Backward"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rc7cs"]
+animation = &"Walk Forward"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_d1b21"]
+animation = &"Jog Forward Right"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_qs82m"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_8tn2x")
+blend_point_0/pos = Vector2(-2, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_aq4fw")
+blend_point_1/pos = Vector2(2, 0)
+blend_point_2/node = SubResource("AnimationNodeAnimation_q1uvj")
+blend_point_2/pos = Vector2(0, 2)
+blend_point_3/node = SubResource("AnimationNodeAnimation_njov2")
+blend_point_3/pos = Vector2(0, 0)
+blend_point_4/node = SubResource("AnimationNodeAnimation_2au82")
+blend_point_4/pos = Vector2(0, -2)
+blend_point_5/node = SubResource("AnimationNodeAnimation_vwb7u")
+blend_point_5/pos = Vector2(-1, 0)
+blend_point_6/node = SubResource("AnimationNodeAnimation_cqdos")
+blend_point_6/pos = Vector2(1, 0)
+blend_point_7/node = SubResource("AnimationNodeAnimation_r6p7k")
+blend_point_7/pos = Vector2(0, -1)
+blend_point_8/node = SubResource("AnimationNodeAnimation_rc7cs")
+blend_point_8/pos = Vector2(0, 1)
+blend_point_9/node = SubResource("AnimationNodeAnimation_d1b21")
+blend_point_9/pos = Vector2(-1.4, 1.4)
+blend_point_10/node = SubResource("AnimationNodeAnimation_ivycn")
+blend_point_10/pos = Vector2(1.4, 1.4)
+blend_point_11/node = SubResource("AnimationNodeAnimation_qs82m")
+blend_point_11/pos = Vector2(1.4, -1.4)
+blend_point_12/node = SubResource("AnimationNodeAnimation_c4vo5")
+blend_point_12/pos = Vector2(-1.4, -1.4)
+min_space = Vector2(-2, -2)
+max_space = Vector2(2, 2)
+snap = Vector2(1, 1)
+sync = true
+smooth = true
+smooth_speed = 1.5
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ilduj"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_c4vo5"]
+graph_offset = Vector2(-713, 45)
+nodes/GroundedMovement/node = SubResource("AnimationNodeBlendSpace2D_qs82m")
+nodes/GroundedMovement/position = Vector2(-400, 140)
+nodes/SpeedScale/node = SubResource("AnimationNodeTimeScale_ilduj")
+nodes/SpeedScale/position = Vector2(-160, 180)
+node_connections = [&"output", 0, &"SpeedScale", &"SpeedScale", 0, &"GroundedMovement"]
+
+[node name="Node3D" type="CharacterBody3D"]
+script = ExtResource("1_atbvg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
+shape = SubResource("CapsuleShape3D_7ig0a")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../test mixamo anims")
+root_motion_track = NodePath("%GeneralSkeleton:Root")
+root_motion_local = false
+tree_root = SubResource("AnimationNodeBlendTree_c4vo5")
+anim_player = NodePath("../test mixamo anims/AnimationPlayer")
+parameters/GroundedMovement/blend_position = Vector2(1.87571, -0.0708447)
+parameters/SpeedScale/scale = 1.0
+script = ExtResource("2_atbvg")
+RootSpeed = 1.62391
+
+[node name="RootMotionView" type="RootMotionView" parent="AnimationTree"]
+animation_path = NodePath("..")
+radius = 2.35
+
+[node name="test mixamo anims" parent="." instance=ExtResource("1_myinc")]
+
+[node name="HeadRotater" type="SkeletonModifier3D" parent="test mixamo anims/Armature/GeneralSkeleton" index="1"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+accessibility_name = ""
+accessibility_description = ""
+accessibility_live = 0
+accessibility_controls_nodes = Array[NodePath]([])
+accessibility_described_by_nodes = Array[NodePath]([])
+accessibility_labeled_by_nodes = Array[NodePath]([])
+accessibility_flow_to_nodes = Array[NodePath]([])
+transform = Transform3D(0.99986, 0.00322571, 0.0164187, -0.00353568, 0.999816, 0.0188869, -0.0163547, -0.0189422, 0.999687, 0.00820757, 1.50655, -0.0087651)
+rotation_edit_mode = 0
+rotation_order = 2
+top_level = false
+visible = true
+visibility_parent = NodePath("")
+active = true
+influence = 1.0
+script = ExtResource("3_lcuhw")
+Head = Vector3(1.571, 0, 0)
+
+[node name="CameraCurrent" type="Camera3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
+transform = Transform3D(0.99986, -0.00353237, -0.0163555, 0.00322568, 0.999819, -0.0187386, 0.0164187, 0.0186832, 0.999691, 0.013, 0.152, -0.119)
+
+[node name="CameraDefault" type="Camera3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.96604e-05, 0.128531, -0.129479)
+
+[node name="LookPoint" type="Marker3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
+transform = Transform3D(1.01077, 5.92554e-08, -1.65328e-05, 1.62079e-07, 1.01281, -3.7482e-05, 2.7325e-05, 8.45119e-05, 1.00193, 0.196266, 0.224864, -11.9963)
+
+[editable path="test mixamo anims"]

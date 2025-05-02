@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://c2ni1635u04he"]
+
+[ext_resource type="PackedScene" uid="uid://bjrwuwhj6qyej" path="res://Character.tscn" id="1_bexhn"]
+[ext_resource type="Texture2D" uid="uid://b45j574peut1n" path="res://icon.svg" id="2_t7iv1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t7iv1"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_2nifc"]
+sky_material = SubResource("ProceduralSkyMaterial_t7iv1")
+
+[sub_resource type="Environment" id="Environment_wkftn"]
+background_mode = 2
+sky = SubResource("Sky_2nifc")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2nifc"]
+albedo_texture = ExtResource("2_t7iv1")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wkftn"]
+material = SubResource("StandardMaterial3D_2nifc")
+size = Vector2(100, 100)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_t7iv1"]
+data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
+
+[node name="Level" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wkftn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Node3D" parent="." instance=ExtResource("1_bexhn")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_wkftn")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_t7iv1")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24273, 5.27411)

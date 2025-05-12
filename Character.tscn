@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bjrwuwhj6qyej"]
+[gd_scene load_steps=24 format=3 uid="uid://bjrwuwhj6qyej"]
 
 [ext_resource type="Script" uid="uid://d0m8ebrjeidx" path="res://characterNew.gd" id="1_atbvg"]
 [ext_resource type="PackedScene" uid="uid://cb0k6div6kq0e" path="res://test mixamo anims.glb" id="1_myinc"]
@@ -51,49 +51,67 @@ animation = &"Jog Forward Right"
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_qs82m"]
 blend_point_0/node = SubResource("AnimationNodeAnimation_8tn2x")
 blend_point_0/pos = Vector2(-2, 0)
+blend_point_0/fade = Vector2(0, 0)
 blend_point_1/node = SubResource("AnimationNodeAnimation_aq4fw")
 blend_point_1/pos = Vector2(2, 0)
+blend_point_1/fade = Vector2(0, 0)
 blend_point_2/node = SubResource("AnimationNodeAnimation_q1uvj")
 blend_point_2/pos = Vector2(0, 2)
+blend_point_2/fade = Vector2(0, 0)
 blend_point_3/node = SubResource("AnimationNodeAnimation_njov2")
 blend_point_3/pos = Vector2(0, 0)
+blend_point_3/fade = Vector2(0.1, 4)
 blend_point_4/node = SubResource("AnimationNodeAnimation_2au82")
 blend_point_4/pos = Vector2(0, -2)
+blend_point_4/fade = Vector2(0, 0)
 blend_point_5/node = SubResource("AnimationNodeAnimation_vwb7u")
 blend_point_5/pos = Vector2(-1, 0)
+blend_point_5/fade = Vector2(0, 0)
 blend_point_6/node = SubResource("AnimationNodeAnimation_cqdos")
 blend_point_6/pos = Vector2(1, 0)
+blend_point_6/fade = Vector2(0, 0)
 blend_point_7/node = SubResource("AnimationNodeAnimation_r6p7k")
 blend_point_7/pos = Vector2(0, -1)
+blend_point_7/fade = Vector2(0, 0)
 blend_point_8/node = SubResource("AnimationNodeAnimation_rc7cs")
 blend_point_8/pos = Vector2(0, 1)
+blend_point_8/fade = Vector2(0, 0)
 blend_point_9/node = SubResource("AnimationNodeAnimation_d1b21")
 blend_point_9/pos = Vector2(-1.4, 1.4)
+blend_point_9/fade = Vector2(0, 0)
 blend_point_10/node = SubResource("AnimationNodeAnimation_ivycn")
 blend_point_10/pos = Vector2(1.4, 1.4)
+blend_point_10/fade = Vector2(0, 0)
 blend_point_11/node = SubResource("AnimationNodeAnimation_qs82m")
 blend_point_11/pos = Vector2(1.4, -1.4)
+blend_point_11/fade = Vector2(0, 0)
 blend_point_12/node = SubResource("AnimationNodeAnimation_c4vo5")
 blend_point_12/pos = Vector2(-1.4, -1.4)
+blend_point_12/fade = Vector2(0, 0)
 min_space = Vector2(-2, -2)
 max_space = Vector2(2, 2)
 snap = Vector2(1, 1)
 sync = true
-smooth = true
-smooth_speed = 2.5
+default_blend_time = 0.01
+override_delta = true
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_atbvg"]
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ilduj"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_c4vo5"]
-graph_offset = Vector2(-944, 287)
+graph_offset = Vector2(-550, 178)
+nodes/output/position = Vector2(400, 140)
 nodes/GroundedMovement/node = SubResource("AnimationNodeBlendSpace2D_qs82m")
 nodes/GroundedMovement/position = Vector2(-400, 140)
 nodes/SpeedScale/node = SubResource("AnimationNodeTimeScale_ilduj")
 nodes/SpeedScale/position = Vector2(-160, 180)
+nodes/OneShot/node = SubResource("AnimationNodeOneShot_atbvg")
+nodes/OneShot/position = Vector2(-1, 485)
 node_connections = [&"output", 0, &"SpeedScale", &"SpeedScale", 0, &"GroundedMovement"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atbvg"]
-bg_color = Color(0, 0.1955, 0.23, 1)
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Node3D" type="CharacterBody3D"]
 script = ExtResource("1_atbvg")
@@ -108,10 +126,13 @@ root_motion_track = NodePath("%GeneralSkeleton:Root")
 root_motion_local = false
 tree_root = SubResource("AnimationNodeBlendTree_c4vo5")
 anim_player = NodePath("../test mixamo anims/AnimationPlayer")
-parameters/GroundedMovement/blend_position = Vector2(1.97062, 0.0243902)
+parameters/GroundedMovement/blend_position = Vector2(0.985915, 0.043956)
 parameters/SpeedScale/scale = 1.0
+parameters/OneShot/active = false
+parameters/OneShot/internal_active = false
+parameters/OneShot/request = 0
 script = ExtResource("2_atbvg")
-RootSpeed = 1.57578
+RootSpeed = 1.0
 
 [node name="RootMotionView" type="RootMotionView" parent="AnimationTree"]
 animation_path = NodePath("..")
@@ -132,6 +153,7 @@ anchor_left = 0.0685764
 anchor_top = 0.179012
 anchor_right = 0.103299
 anchor_bottom = 0.214506
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_atbvg")
 text = "ON"
 metadata/_edit_use_anchors_ = true
@@ -155,7 +177,7 @@ accessibility_controls_nodes = Array[NodePath]([])
 accessibility_described_by_nodes = Array[NodePath]([])
 accessibility_labeled_by_nodes = Array[NodePath]([])
 accessibility_flow_to_nodes = Array[NodePath]([])
-transform = Transform3D(0.999912, 0.0081785, 0.0104885, -0.00834411, 0.99984, 0.0158443, -0.0103572, -0.0159304, 0.99982, -0.00579569, 1.52942, 0.0379982)
+transform = Transform3D(0.997455, 0.0338944, -0.0627316, -0.0313003, 0.998632, 0.0418845, 0.0640653, -0.0398143, 0.997151, -0.0475466, 1.51223, 0.0675602)
 rotation_edit_mode = 0
 rotation_order = 2
 top_level = false
@@ -167,7 +189,7 @@ script = ExtResource("3_lcuhw")
 Head = Vector3(1.571, 0, 0)
 
 [node name="CameraCurrent" type="Camera3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
-transform = Transform3D(0.999912, -0.008342, -0.010359, 0.0081785, 0.999843, -0.0157268, 0.0104886, 0.0156407, 0.999823, 0.013, 0.152, -0.119)
+transform = Transform3D(0.997455, -0.0313133, 0.064059, 0.0338945, 0.99864, -0.039611, -0.0627314, 0.0416814, 0.99716, 0.013, 0.152, -0.119)
 current = true
 fov = 90.0
 
@@ -175,6 +197,10 @@ fov = 90.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.96604e-05, 0.128531, -0.129479)
 
 [node name="LookPoint" type="Marker3D" parent="test mixamo anims/Armature/GeneralSkeleton/HeadRotater"]
-transform = Transform3D(1.01923, -7.71892e-07, -8.21427e-07, 7.79793e-07, 1.02287, -4.61098e-05, 5.96512e-05, 0.000152839, 1.00394, 0.124308, 0.188721, -11.9979)
+transform = Transform3D(1.06828, -1.52318e-05, 7.00504e-05, -4.09782e-08, 1.06725, -0.000172853, 0.000131585, 0.000319611, 1.04765, -0.768708, 0.475332, -11.9659)
+
+[node name="AnimationPlayer" parent="test mixamo anims" index="1"]
+root_motion_track = NodePath("%GeneralSkeleton:Root")
+root_motion_local = false
 
 [editable path="test mixamo anims"]

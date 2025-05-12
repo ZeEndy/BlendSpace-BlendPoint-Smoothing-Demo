@@ -19,9 +19,9 @@ func _process(delta: float) -> void:
 		SmoothingMode=!SmoothingMode
 	SmoothingText.text = "BlendPoint Smoothing: "+str(SmoothingMode)
 	if SmoothingMode:
-		BlendSpace.smooth=true
+		BlendSpace.default_blend_time=0.5
 	else:
-		BlendSpace.smooth=false
+		BlendSpace.default_blend_time=0.0
 	self["parameters/GroundedMovement/blend_position"]=ExpDecay(self["parameters/GroundedMovement/blend_position"],XZSpeed/Player.WALK_SPEED,15,delta)
 		
 	if RootSpeed>0.0 && self["parameters/SpeedScale/scale"] > 0: # check if really needs to be applied
@@ -29,7 +29,6 @@ func _process(delta: float) -> void:
 	self["parameters/SpeedScale/scale"] = lerp(self["parameters/SpeedScale/scale"],TargetSpeedScale,Engine.get_physics_interpolation_fraction()) # interpolate to compensate for physics tik rate
 	if self["parameters/SpeedScale/scale"]==NAN || self["parameters/SpeedScale/scale"]==INF: # incase it some how devides by zero even if it shouldn't
 		self["parameters/SpeedScale/scale"] = 1.0
-
 
 static func ExpDecay(a,b,decay : float,dt : float):
 	if typeof(a)==TYPE_BASIS:

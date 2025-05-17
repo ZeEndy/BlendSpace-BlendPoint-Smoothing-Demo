@@ -18,11 +18,11 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("SWITCHMODE"):
 		SmoothingMode=!SmoothingMode
 	SmoothingText.text = "BlendPoint Smoothing: "+str(SmoothingMode)
-	if SmoothingMode:
-		BlendSpace.default_blend_time=0.5
-	else:
-		BlendSpace.default_blend_time=0.0
-	self["parameters/GroundedMovement/blend_position"]=ExpDecay(self["parameters/GroundedMovement/blend_position"],XZSpeed/Player.WALK_SPEED,15,delta)
+	#if SmoothingMode:
+		#BlendSpace.velocity_limit=2.5
+	#else:
+		#BlendSpace.velocity_limit=0.0
+	self["parameters/GroundedMovement/blend_position"]=ExpDecay(self["parameters/GroundedMovement/blend_position"],XZSpeed/Player.WALK_SPEED,20,delta)
 		
 	if RootSpeed>0.0 && self["parameters/SpeedScale/scale"] > 0: # check if really needs to be applied
 		TargetSpeedScale = max(XZSpeed.length(),0.01)/max(RootSpeed,0.01)#get the difference
